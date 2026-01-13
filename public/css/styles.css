@@ -31,8 +31,8 @@ header {
 
 /* NAVIGATION */
 
-/* 
-ul, li {
+
+.navUl, .nav {
 display: flex;
 gap: 8%;
 text-decoration: none;
@@ -41,11 +41,11 @@ font-size: 20px;
 justify-content: center;
 }
 
-ul {
+.navUl {
   background-color: black;
   padding: 10px;
   margin-right: 10px;
-}  */
+} 
 
 
 
@@ -134,4 +134,9 @@ div p {
   margin: 0 auto;
 }
 
+.carInfo {
+  background: rgb(173, 173, 191);
+  opacity: 0.5;
+  width: 25%;
+}
 }
