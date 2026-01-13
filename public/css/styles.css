@@ -4,3 +4,134 @@
 *:after {
   box-sizing: border-box;
 }
+
+/* HEADER */
+
+header {
+  display: grid;
+  grid-template-columns: 45% 45%;
+}
+
+.pageHead {
+  text-decoration: none;
+  font-size: 20px;
+  color: black;
+}
+
+#top-header {
+  margin-top: 10px;
+}
+
+.account {
+  text-decoration: none;
+  color: black;
+  font-size: 9px;
+  margin-left: 60%;
+}
+
+/* NAVIGATION */
+
+/* 
+ul, li {
+display: flex;
+gap: 8%;
+text-decoration: none;
+color: white;
+font-size: 20px;
+justify-content: center;
+}
+
+ul {
+  background-color: black;
+  padding: 10px;
+  margin-right: 10px;
+}  */
+
+
+
+/* BODY */
+
+
+
+.carInfo {
+ position: relative;
+  color: rgb(13, 13, 162);
+}
+
+button {
+  padding: 15px;
+  border: 1px solid grey;
+  background: rgb(79, 153, 238);
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+div p {
+  font-size: 17px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.img {
+  display: block;
+  margin: 0 auto;
+  position: absolute;
+}
+
+.carInfo {
+  background: rgb(173, 173, 191);
+  opacity: 0.5;
+  width: 50%;
+}
+
+.sec {
+  margin-top: 50px;
+}
+
+
+
+
+
+
+
+.upgradeMain {
+  display: grid;
+  grid-template-columns: 45% 45%;
+}
+
+
+.capacitor, .flame, .bumberSticker, .hubCap {
+  background-color: blue;
+  padding-top: 10px;
+  padding-right: 50px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+}
+
+@media screen and (min-width: 650px) {
+ 
+.sec{
+  display: grid;
+  grid-template-columns: 45% 45%;
+}
+
+.upgradeMain {
+  display: grid;
+  grid-template-columns: 45% 45%;
+}
+
+.capacitor, .flame, .bumberSticker, .hubCap {
+  background-color: blue;
+  padding-top: 10px;
+  padding-right: 50px;
+  padding-left: 20px;
+  padding-bottom: 10px;
+}
+
+.img {
+  display: block;
+  margin: 0 auto;
+}
+
+}

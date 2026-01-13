@@ -10,6 +10,7 @@ const expressLayouts = require("express-ejs-layouts");
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
+const path = require('path')
 
 
 /* ***********************
@@ -25,6 +26,7 @@ app.set("layout", "./layouts/layout");
  * Routes
  *************************/
 app.use(static)
+app.use(express.static(path.join(__dirname, 'public')));
 
 /* ***********************
  * Local Server Information
