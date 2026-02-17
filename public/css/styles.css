@@ -32,7 +32,7 @@ header {
 /* NAVIGATION */
 
 
-.navUl, .nav {
+.navUl {
 display: flex;
 gap: 8%;
 text-decoration: none;
@@ -109,6 +109,97 @@ div p {
   padding-bottom: 10px;
 }
 
+.classificationThumbnail {
+  display: block;
+  margin: 10px auto 0;
+  border-radius: 5px;
+  /* border-radius: 20px; */
+}
+
+.carsInfo {
+  background-color: rgb(66, 66, 75);
+  border-radius: 20px;
+  height: 250px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  border: 3px solid black;
+}
+
+.carsGrid {
+  background-color: rgb(186, 186, 181);
+  border-radius: 5px;
+}
+
+
+/* Individual vehicle */
+
+.vehImg {
+  width: 100%;
+}
+
+.vehDes {
+  background-color: rgb(114, 122, 114);
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.detailsGrid {
+   background: rgb(184, 181, 181);
+   padding: 10px;
+   border-radius: 7px;
+ }
+
+ h1 {
+  font-size: 50px;
+ }
+
+ h2, h3 {
+  font-size: 25px;
+  color: white;
+ }
+
+ .make {
+  color: white;
+  background-color: black;
+  padding: 20px;
+ }
+
+ .des {
+  text-align: center;
+  color: rgb(213, 231, 213);
+  text-decoration: none;
+ }
+
+@media screen and (min-width: 850px) {
+  .detailsGrid {
+    display: grid;
+    grid-template-columns: 60% 37%;
+    gap: 20px;
+    background: rgb(184, 181, 181);
+    padding: 10px;
+    border-radius: 7px;
+  }
+
+  .vehDes {
+  margin-top: 0;
+  }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 @media screen and (min-width: 650px) {
  
 .sec{
@@ -139,4 +230,42 @@ div p {
   opacity: 0.5;
   width: 25%;
 }
+
+.carsInfo {
+  border-radius: 20px;
+  height: 280px;
+  margin-bottom: 20px;
+  width: 220px;
+}
+
+.classificationThumbnail {
+  display: block;
+  margin: 10px auto 0;
+  border-radius: 5px;
+  border-radius: 20px;
+}
+
+.carsGrid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  place-items: center;
+}
+}
+
+
+@media screen and (min-width: 1000px) {
+  .carsGrid {
+  display: grid;
+  grid-template-columns: 33% 33% 33%;
+  place-items: center;
+}
+}
+
+input:required:invalid, input:invalid:focus {
+    background: rgb(246, 214, 214);
+}
+
+
+input:required:valid {
+  background: rgb(187, 247, 187);
 }

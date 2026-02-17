@@ -1,0 +1,42 @@
+
+
+
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+
+
+   <form action="/inv/update" method="post" id="updateForm">
+    <span>Name must be alphabetic character without space</span>
+    <%- classificationSelect %>
+   
+   <p>Make*</p>
+                <label><input type="text" name="inv_make"></label>
+                <p>Model*</p>
+                <label><input type="text" name="inv_model"></label>
+                <p>Year*</p>
+                <label><input type="number" name="inv_year"></label>
+                <p>Description*</p>
+                <label><input type="text" name="inv_description"></label>
+                <p>Image*</p>
+                <label><input type="text" name="inv_image"></label>
+                <p>Thumbnailr*</p>
+                <label><input type="text" name="inv_thumbnail"></label>
+                <p>Price*</p>
+                <label><input type="number" name="inv_price"></label>
+                <p>Miles*</p>
+                <label><input type="number" name="inv_miles"></label>
+                <p>Color*</p>
+                <label><input type="text" name="inv_color"></label>
+                
+                             
+            
+                <input type="submit" value="Update Inventory" class="submitButton">
+
+                <input type="hidden" name="inv_id"
+<% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+<% } %>>
+    </form>       

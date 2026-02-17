@@ -242,3 +242,15 @@ VALUES   (
     'White',
     5
   );
+
+
+
+UPDATE public.inventory
+SET inv_description = 'a huge interior'
+WHERE inv_model = 'Hummer'
+
+
+
+UPDATE public.inventory
+SET inv_image = REPLACE(inv_image, 'images', 'images/vehicle')
+SET inv_thumbnail = REPLACE(inv_thumbnail, 'images', 'images/vehicle')

@@ -6,8 +6,6 @@ UPDATE public.account
 SET account_type = 'Admin'
 WHERE account_id = 1
 
-DELETE FROM public.accout
-WHERE account_id = 1;
 
 UPDATE public.inventory
 SET inv_description = 'a huge interior'

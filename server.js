@@ -11,6 +11,17 @@ const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
 const path = require('path')
+const baseController = require('./controllers/baseController');
+const inventoryRoute = require('./routes/inventoryRoute');
+const utilities = require('./utilities/index');
+const bodyParser = require("body-parser");
+const errorRoute = require("./routes/errorRoute")
+const accountRoute = require('./routes/accountRoute')
+const inventoryManagementRoute = require("./routes/inventoryManagementRoute")
+const session = require("express-session");
+const pool = require("./database/");
+const cookieParser = require("cookie-parser");
+
 
 
 /* ***********************
@@ -20,6 +31,33 @@ app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.set("layout", "./layouts/layout");
 
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}));
+
+// Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+});
+
+//Body Parser Middleware.
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded.
+
+// Login Cookie Parser.
+app.use(cookieParser());
+app.use(utilities.checkJWTToken)
+
+
 
 
 /* ***********************
@@ -27,6 +65,64 @@ app.set("layout", "./layouts/layout");
  *************************/
 app.use(static)
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Home Route.
+app.get("/", utilities.handleErrors(baseController.buildHome));
+
+// Inventory routes
+app.use("/inv", inventoryRoute);
+
+//Account
+app.use("/account", accountRoute);
+
+// Vehicle Management route.
+app.use("/inv", inventoryManagementRoute);
+
+
+// 500 Error
+app.use("/error", errorRoute);
+
+
+// File Not Found Route - must be last route in list
+app.use(async (req, res, next) => {
+  next({ status: 404, message: 'Sorry, we appear to have lost that page.' })
+});
+// app.use("/error", errorRoute);
+
+// app.use(async (req, res, next) => {
+//   next({ status: 500, message: 'Sorry a Server Error Occured.' })
+// });
+
+/* ***********************
+* Express Error Handler
+* Place after all other middleware
+*************************/
+/* ***********************
+* Express Error Handler
+* Place after all other middleware
+*************************/
+app.use(async (err, req, res, next) => {
+  let nav = await utilities.getNav()
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  if (err.status == 500) { message = err.message } else { message = 'Oh no! There was a crash. Maybe try a different route?' }
+  res.render("errors/error", {
+    title: err.status || '500',
+    message,
+    nav
+  })
+});
+
+// app.use(async (err, req, res, next) => {
+//   let nav = await utilities.getNav()
+//   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+//   if (err.status == 500) { message = err.message } else { message = 'Oh, an internal server error occured.' }
+//   res.render("errors/errorss", {
+//     title: err.status || 'Server Error',
+//     message,
+//     nav
+//   })
+// });
+
 
 /* ***********************
  * Local Server Information
@@ -43,7 +139,3 @@ app.listen(port, () => {
 })
 
 // Index Route
-
-app.get("/", function (req, res) {
-  res.render("index", { title: "Home" })
-});
