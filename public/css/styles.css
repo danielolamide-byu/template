@@ -269,3 +269,95 @@ input:required:invalid, input:invalid:focus {
 input:required:valid {
   background: rgb(187, 247, 187);
 }
+
+h2, h3 {
+  color: black;
+}
+
+.notice {
+  color: red;
+}
+
+.loginForm  {
+  background-color: blue;
+  height: 170px;
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 5px;
+}
+
+form input {
+  padding: 10px;
+  border: 1px solid rgb(0, 255, 30);
+  border-radius: 5px;  
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.password {
+  margin-top: 20px;
+}
+
+.loginButton, .registerButton {
+  padding: 10px;
+  color: beige;
+  background: grey;
+  border: 1px solid blue;
+  border-radius: 5px;
+  margin-left: 7px;
+  width: 50px;
+}
+
+.login, .register, .add {
+    text-align: center;
+}
+
+.reg {
+  margin-top: 10px;
+}
+
+.a, .passRule, .c {
+  color: aliceblue;
+}
+
+/* Register Form */
+.registerForm {
+  background-color: blue;
+  height: 300px;
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 5px;
+}
+
+.addClassification, .addInventory {
+  margin-left: 10px;
+  color: rgb(248, 243, 243);
+  padding: 10px;
+  background: blue;
+  border: 1px solid green;
+}
+
+.classificationForm {
+  background-color: blue;
+  height: 100px;
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 5px;
+}
+
+.inventoryForm {
+   background-color: blue;
+  height: 600px;
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 5px;
+}
+
+#classificationList {
+  padding: 7px;
+  margin-top: 7px;
+  margin-left: 7px;
+  margin-bottom: 7px;
+  border: 1px solid green;
+  border-radius: 5px;
+}

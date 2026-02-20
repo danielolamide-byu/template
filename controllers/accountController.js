@@ -7,6 +7,8 @@ const utilities = require("../utilities");
 const ass = require("../models/account-model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Util = require("../utilities");
+const flash = require("connect-flash");
 require("dotenv").config();
 
 // const acc = require("../models/account-model");
@@ -95,9 +97,9 @@ async function accountLogin(req, res) {
       delete accountData.account_password
       const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
       if(process.env.NODE_ENV === 'development') {
-        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+        res.cookie("jwt", accessToken, { httpOnly: false, maxAge: 3600 * 1000 })
       } else {
-        res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
+        res.cookie("jwt", accessToken, { httpOnly: false, secure: false, maxAge: 3600 * 1000 })
       }
       return res.redirect("/account/")
     }
@@ -115,23 +117,116 @@ async function accountLogin(req, res) {
   }
 };
 
+
+
+
+
+
+
+
+
+
 async function buildManagement(req, res) {
+  let accountId
   try {
+    
     const nav = await utilities.getNav();
-    res.render("account/default", {
-      title: "Line",
-      nav, 
-      // errors: null
+    // const accountId = await ass.getUserId();
+    const id = parseInt(req.params.account_id)
+    const data = await ass.getAccountUsers(id)
+    
+
+    data.forEach((user) => {
   
+      const da = user.account_id 
+
+    // const accId = await utilities.acc()
+    // accountId += `<a href="/account/edit/${id}">Manage Account </a>`
+
+    
+    // const link = 
+    if (accountType === 'Client') {
+      const greet = "Welcome " + accountFirstname
+    
+      res.render("account/account-management", {
+        title: "Account Management",
+        nav,
+        greet,
+        da
+        
+        // acountUpdatePath
+      })
+    };
     })
-  } catch (error) {
-    console.log("Cannot build Management.", error);
+
+     if (accountType === 'Employee' || accountType === 'Admin') {
+      const greet = "Welcome " + accountFirstname
+       const invLink = await utilities.getLink();
+      res.render("account/admin-employee-management", {
+        title: "Account Management",
+        nav,
+        greet,
+        invLink
+        // errors: null
+      })
+    }
+    } catch (error) {
+      console.log("Cannot build Management.", error);
+    }
+  };
+
+async function accountUpdateForm(req, res) {
+  // const account_id = req.params.account_id
+  // const users = await ass.getAccountUsers(1)
+   const id = parseInt(req.params.account_id)
+    const data = await ass.getAccountUsers(id)
+
+  const nav = await utilities.getNav();
+
+  res.render("account/updateAccount", {
+    title: "Update Account",
+    nav,
+    data: data,
+    errors: null,
+  
+  });
+    
+}
+
+
+
+
+
+
+
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoxMywiYWNjb3VudF9maXJzdG5hbWUiOiJEb24iLCJhY2NvdW50X2xhc3RuYW1lIjoiRGVuIiwiYWNjb3VudF9lbWFpbCI6ImRvbmRlbkBnbWFpbC5jb20iLCJhY2NvdW50X3R5cGUiOiJDbGllbnQiLCJpYXQiOjE3NzE0NDYwNjIsImV4cCI6MTc3NTA0NjA2Mn0.DOBi-rRFHZo2uA257ycpz75am8Hyhp0EenZC7djprGU";
+// const token = invManage.generateUserToken()
+// Decode the token (does not verify signature)
+const decoded = jwt.decode(token);
+
+
+// Access the account type (assuming the key is 'accountType' or 'role')
+const accountType = decoded.account_type;
+const accountFirstname= decoded.account_firstname
+
+async function requiresAdmin(req, res, next) {
+  if (accountType === 'Admin' || accountType === 'Employee') {
+    next()
+    console.log(accountType);
+  }
+  else {
+    console.log("Access Forbidden.")
+    res.redirect('/account/login');
   }
 };
 
+ 
 
 
 
 
 
-module.exports = { buildLogin, builRegister, registerAccount, accountLogin, buildManagement }
+
+
+
+module.exports = { buildLogin, builRegister, registerAccount, accountLogin, buildManagement, requiresAdmin, accountUpdateForm }

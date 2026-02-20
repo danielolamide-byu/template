@@ -9,6 +9,7 @@ const regValidate = require("../utilities/account-validation");
 
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 router.get("/register", utilities.handleErrors(accountController.builRegister));
+router.get("/edit/:account_id", utilities.handleErrors(accountController.accountUpdateForm));
 
 
 
@@ -21,10 +22,15 @@ router.post(
 
 router.post(
     "/login",
-    // regValidate.loginRules(),
-    // regValidate.checkLoginData,
+    regValidate.loginRules(),
+    regValidate.checkLoginData,
     utilities.handleErrors(accountController.accountLogin));
     
-router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildManagement));
-
+    
+    router.post(
+        "/update",
+        utilities.handleErrors(accountController.accountUpdate)
+    );
+    
+    router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildManagement));
 module.exports = router;

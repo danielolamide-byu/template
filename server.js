@@ -19,6 +19,7 @@ const errorRoute = require("./routes/errorRoute")
 const accountRoute = require('./routes/accountRoute')
 const inventoryManagementRoute = require("./routes/inventoryManagementRoute")
 const session = require("express-session");
+const flash = require("connect-flash");
 const pool = require("./database/");
 const cookieParser = require("cookie-parser");
 
@@ -55,7 +56,11 @@ app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-
 
 // Login Cookie Parser.
 app.use(cookieParser());
-app.use(utilities.checkJWTToken)
+app.use(utilities.checkJWTToken);
+app.use(flash())
+
+  // only admin can access this
+
 
 
 
@@ -77,7 +82,6 @@ app.use("/account", accountRoute);
 
 // Vehicle Management route.
 app.use("/inv", inventoryManagementRoute);
-
 
 // 500 Error
 app.use("/error", errorRoute);
@@ -137,5 +141,5 @@ const host = process.env.HOST
 app.listen(port, () => {
   console.log(`app listening on ${host}:${port}`)
 })
-
-// Index Route
+// module.exports = requiresAdmin
+// // Index Route

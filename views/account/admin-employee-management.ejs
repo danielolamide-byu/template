@@ -1,0 +1,18 @@
+
+
+
+
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<h2><%- greet %></h2>
+
+<h4>You are Logged in.</h4>
+
+<a href="">Edit Account information</a>
+
+<%- invLink  %>
+<!-- <a href="/inv">Manage Inventory</a> -->

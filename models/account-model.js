@@ -26,8 +26,26 @@ async function getAccountByEmail (account_email) {
   } catch (error) {
     return new Error("No matching email found")
   }
-}
+};
+
+async function getAccountUsers(account_id) {
+  try {
+    const result = await pool.query(`SELECT * FROM account WHERE account_id = $1`, [account_id])
+    return result.rows[0]
+  } catch (error) {
+    console.log("Error", error);
+  }
+};
+
+async function getUserId() {
+  try {
+    return await pool.query(`SELECT * FROM public.account`)
+    
+  } catch (error) {
+    console.log("Not connected", error)
+  }
+};
 
 
-module.exports = { registerAccount, getAccountByEmail };
+module.exports = { registerAccount, getAccountByEmail, getAccountUsers, getUserId };
 

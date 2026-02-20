@@ -1,0 +1,23 @@
+
+
+
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+
+
+    <% data.forEach((user) => { %>
+  
+    <a href="<%= user.account_id %>">Edit this Item</a>
+
+<% }) %>
+
+
+
+
+
+
+

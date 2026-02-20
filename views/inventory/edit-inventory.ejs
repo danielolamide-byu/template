@@ -11,10 +11,10 @@
 
    <form action="/inv/update" method="post" id="updateForm">
     <span>Name must be alphabetic character without space</span>
-    <%- classificationSelect %>
+
    
    <p>Make*</p>
-                <label><input type="text" name="inv_make"></label>
+                <label><input type="text" name="inv_make" value="<%- inv_make %>"></label>
                 <p>Model*</p>
                 <label><input type="text" name="inv_model"></label>
                 <p>Year*</p>
@@ -34,9 +34,14 @@
                 
                              
             
-                <input type="submit" value="Update Inventory" class="submitButton">
-
+                <!-- <input type="submit" value="Update Inventory" class="submitButton">/ -->
+                
                 <input type="hidden" name="inv_id"
-<% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
-<% } %>>
+                <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+                <% } %>>
+                <button type="submit">Update Inventory</button>
+
     </form>       
+
+
+    <!-- <script src="../../public/js/inv-update.js"></script> -->

@@ -1,8 +1,16 @@
 
 
-   <form method="post">
-    <span>Name must be alphabetic character without space</span>
-   <p>Classification Name*</p>
+
+<% if (title) { %>
+<h1 class="add"><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+
+   <form method="post" class="classificationForm">
+      <p>Classification Name*</p>
+      <span class="c">Name must be alphabetic character without space</span><br>
                 <label><input type="text" name="classification_name"></label>
                              
             

@@ -1,6 +1,8 @@
 
 const invModel = require("../models/inventory-model")
+const ass = require("../models/account-model");
 const jwt = require("jsonwebtoken")
+// const { getCookie } = require("../public/js/inventory")
 require("dotenv").config()
 const Util = {}
 
@@ -130,9 +132,29 @@ Util.buildClassificationList = async function (classification_id = null) {
   })
   classificationList += "</select>"
   
-  
   return classificationList
+  
 };
+Util.AccId = async function () {
+  let link = ""; // Initialize as empty string to avoid "undefined" prefix
+  let accountId = await ass.getUserId();
+  
+  accountId.rows.forEach((row) => {
+    const id = row.account_id;
+    // link += id; // This concatenates IDs into one long string
+    
+    link += `<a href="/account/edit/${id}">Manage Account </a>`
+    
+  }); 
+  
+  return link;
+};
+
+Util.acc = async function (req, res) {
+  const accountId = req.params.account_id
+  link += `<a href="/account/edit/${accountId}">Manage Account </a>`
+
+}
 
 /* ****************************************
 * Middleware to check token validity
@@ -160,14 +182,112 @@ Util.checkJWTToken = (req, res, next) => {
 /* ****************************************
  *  Check Login
  * ************************************ */
- Util.checkLogin = (req, res, next) => {
+Util.checkLogin = (req, res, next) => {
   if (res.locals.loggedin) {
     next()
   } else {
     req.flash("notice", "Please log in.")
     return res.redirect("/account/login")
   }
- }
+};
+
+
+Util.getLink = async function(){
+  let link;
+  link += '<h3>Inventory Management</h3>'
+  link += '<a href="/inv/">Edit Inventory</a>'
+ 
+  return link;
+}
+
+
+// Util.requiresAdmin = (req, res, next) => {
+// // Token from header
+// const token = req.headers.authorization.split(' ')[1];
+//   try {
+//     // 1. Verify and decode
+//     const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+//     if (decoded.account_type === 'Client') {
+   
+//       next();
+//     } else {
+//       res.render("account/login", {
+//         title: "LOGIN"
+//       })
+//     }
+//   } catch (err) {
+//     console.log("Invalid Token", err);
+//   };
+// // };
+
+// Util.requiresAdmin = (req, res, next) => {
+//   // Get auth header value
+//   const authHeader = req.headers['authorization'];
+//   // Check if authHeader is undefined or null, and then check format
+//   if (authHeader && authHeader.startsWith('jwt ')) {
+//     const token = authHeader.split(' ')[1];
+//     // Proceed with token verification (e.g., using jwt.verify)
+//     // ... verification logic ...
+//    if(decodedUser.account_type = 'Client' ); // Attach user info to request object
+//     next();
+//   } else {
+//     // If no token, or invalid format, return 401 Unauthorized status
+//     return res.status(401).json({ error: 'Access token required or invalid format' });
+//   }
+// }
+ 
+// Example using jsonwebtoken library
+// const jwt = require('jsonwebtoken');
+
+
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const app = express();
+
+app.use(cookieParser());
+
+
+Util.cook = (req, res) => {
+
+    // Instead of document.cookie, use req.cookies
+    const cookies = req.headers.cookies;
+    console.log(cookies.cookieName); // Get specific cookie
+    res.send('Cookies checked');
+;
+};
+
+
+
+// The secret key should be a strong, unguessable string stored in environment variables,
+// never hardcoded in the source code.
+
+
+
+// Example usage within a login route handler:
+/*
+// In your login route (e.g., in a Node.js/Express app)
+router.post('/login', async (req, res) => {
+  // ... authentication logic (verify username and password against database) ...
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (!user || !(await bcrypt.compare(password, user.password))) {
+    return res.status(400).json({ message: 'Invalid credentials' });
+  }
+
+  // If credentials are valid, generate the token
+  const accessToken = generateUserToken(user);
+
+  // Send the token back to the client
+  res.json({ token: accessToken });
+});
+*/
+
+
+
+  
+
+
+ 
 
 
 
@@ -176,6 +296,8 @@ Util.checkJWTToken = (req, res, next) => {
  * Wrap other function in this for 
  * General Error Handling
  **************************************** */
+
+
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
 

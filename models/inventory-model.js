@@ -37,6 +37,19 @@ async function getVehicleById(inv_id) {
     } catch(error) {
         console.error("Big Error" + error)
     }
+};
+
+async function getInventoryId(inv_id) {
+    const base = await pool.query('SELECT inv_id, inv_make FROM public.inventory WHERE inv_id = $1', [inv_id])
+    return base.rows
+    // try {
+    //     const data = await pool.query(
+    //         `SELECT inv_id FROM public.inventory`
+    //     )
+    //     return data.rows
+    // } catch (error) {
+    //     console.log("Nice error", error);
+    // }
 }
 
 async function addClassification(classification_name) {
@@ -98,4 +111,4 @@ async function updateInventory(
   }
 }
 
-module.exports = { getClassifications, getInventoryByClassificationId, getVehicleById, addClassification, addInventory, updateInventory };
+module.exports = { getClassifications, getInventoryByClassificationId, getVehicleById, addClassification, addInventory, updateInventory, getInventoryId };
