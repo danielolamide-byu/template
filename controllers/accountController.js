@@ -3,14 +3,18 @@
 /* ****************************************
 *  Deliver login view
 * *************************************** */
+const express = require("express")
+const app = express()
 const utilities = require("../utilities");
 const ass = require("../models/account-model");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const Util = require("../utilities");
+const cookieParser = require("cookie-parser");
+// const Util = require("../utilities");
 const flash = require("connect-flash");
 require("dotenv").config();
 
+app.use(cookieParser());
 // const acc = require("../models/account-model");
 // const { json } = require("body-parser");
 
@@ -97,9 +101,9 @@ async function accountLogin(req, res) {
       delete accountData.account_password
       const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
       if(process.env.NODE_ENV === 'development') {
-        res.cookie("jwt", accessToken, { httpOnly: false, maxAge: 3600 * 1000 })
+        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
       } else {
-        res.cookie("jwt", accessToken, { httpOnly: false, secure: false, maxAge: 3600 * 1000 })
+        res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
       }
       return res.redirect("/account/")
     }
@@ -121,6 +125,18 @@ async function accountLogin(req, res) {
 
 
 
+function decodeToken(req, res) {
+
+    const token = req.cookies.jwt; 
+    if (!token) {
+        return res.status(401).send("No token found in cookies");
+    }
+    
+    
+    const decoded = jwt.decode(token);
+  console.log(decoded);
+  return decoded
+}
 
 
 
@@ -128,7 +144,13 @@ async function accountLogin(req, res) {
 
 async function buildManagement(req, res) {
   
-    const nav = await utilities.getNav();
+  const nav = await utilities.getNav();
+  const decodedData = decodeToken(req, res)
+
+    // const accountType = decodedData.account_type;
+    const accountFirstname = decodedData.account_lastname
+  const accountType = decodedData.account_type
+  
     
 
 if (accountType === 'Client') {
@@ -176,7 +198,11 @@ async function accountUpdateForm(req, res) {
 
 async function accountUpdate(req, res) {
   let nav = await utilities.getNav();
-  // const account_id = req.params.account_id
+   const decodedData = decodeToken(req, res)
+
+    // const accountType = decodedData.account_type;
+    const accountFirstname = decodedData.account_firstname
+  
    const greet = "Welcome " + accountFirstname
   const { account_id, account_firstname, account_lastname, account_email, account_password } = req.body
 
@@ -225,87 +251,14 @@ async function accountUpdate(req, res) {
     }
 
 };
-//   let nav = await utilities.getNav()
-//     const {
-//       dream_id,
-//       dream_make,
-//       dream_model,
-//       dream_description,
-//       dream_image,
-//       dream_thumbnail,
-//       dream_price,
-//       dream_year,
-//       dream_miles,
-//       dream_color,
-
-//     } = req.body
-//     const updateResult = await invModel.updateInventory(
-//       dream_id,  
-//       dream_make,
-//       dream_model,
-//       dream_description,
-//       dream_image,
-//       dream_thumbnail,
-//       dream_price,
-//       dream_year,
-//       dream_miles,
-//       dream_color,
-//     )
   
-//     if (updateResult) {
-//       const itemName = updateResult.inv_make + " " + updateResult.inv_model
-//       req.flash("notice", `The ${itemName} was successfully updated.`)
-//       res.redirect("/inv/")
-//     } else {
-//       const classificationSelect = await utilities.buildClassificationList(classification_id)
-//       const itemName = `${inv_make} ${inv_model}`
-//       req.flash("notice", "Sorry, the insert failed.")
-//       res.status(501).render("inventory/edit-inventory", {
-//       title: "Edit " + itemName,
-//       nav,
-//       classificationSelect: classificationSelect,
-//       errors: null,
-//       inv_id,
-//       inv_make,
-//       inv_model,
-//       inv_year,
-//       inv_description,
-//       inv_image,
-//       inv_thumbnail,
-//       inv_price,
-//       inv_miles,
-//       inv_color,
-//       classification_id
-//       })
-//     }
-// };
+  async function requiresAdmin(req, res, next) {
+    const decodedData = decodeToken(req, res)
 
-
-
-  
-
+    const accountType = decodedData.account_type;
+    // const accountFirstname = decodedData.account_firstname
     
-  // const link = 
-  
-
-
-
-
-
-
-
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoxMywiYWNjb3VudF9maXJzdG5hbWUiOiJEb24iLCJhY2NvdW50X2xhc3RuYW1lIjoiRGVuIiwiYWNjb3VudF9lbWFpbCI6ImRvbmRlbkBnbWFpbC5jb20iLCJhY2NvdW50X3R5cGUiOiJDbGllbnQiLCJpYXQiOjE3NzE0NDYwNjIsImV4cCI6MTc3NTA0NjA2Mn0.DOBi-rRFHZo2uA257ycpz75am8Hyhp0EenZC7djprGU";
-// const token = invManage.generateUserToken()
-// Decode the token (does not verify signature)
-const decoded = jwt.decode(token);
-
-
-// Access the account type (assuming the key is 'accountType' or 'role')
-const accountType = decoded.account_type;
-const accountFirstname= decoded.account_firstname
-
-async function requiresAdmin(req, res, next) {
-  if (accountType === 'Admin' || accountType === 'Employee') {
+    if (accountType === 'Admin' || accountType === 'Employee') {
     next()
     console.log(accountType);
   }

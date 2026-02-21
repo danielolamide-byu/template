@@ -21,7 +21,29 @@ const inventoryManagementRoute = require("./routes/inventoryManagementRoute")
 const session = require("express-session");
 const flash = require("connect-flash");
 const pool = require("./database/");
-const cookieParser = require("cookie-parser");
+const cookieParser = require('cookie-parser')
+// const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+
+
+
+
+// 1. Ensure cookie-parser miapp.use(cookieParser());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

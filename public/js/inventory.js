@@ -49,41 +49,41 @@ function buildInventoryList(data) {
 
 const heading = document.getElementById('main-heading');
 
-function getCookie(name) {
-    // Append '=' to the name to ensure we match the exact cookie name (e.g., 'user=' vs 'username=')
-    const nameEQ = name + "=";
-    // Split the document.cookie string into an array of individual cookies, trimming whitespace
-    const ca = document.cookie.split(';');
+// function getCookie(name) {
+//     // Append '=' to the name to ensure we match the exact cookie name (e.g., 'user=' vs 'username=')
+//     const nameEQ = name + "=";
+//     // Split the document.cookie string into an array of individual cookies, trimming whitespace
+//     const ca = document.cookie.split(';');
 
-    // Loop through the cookie array
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        // Trim leading whitespace from the cookie string
-        while (c.charAt(0) === ' ') {
-            c = c.substring(1, c.length);
-        }
-        // If the cookie string starts with the desired name, extract and return its value
-        if (c.indexOf(nameEQ) === 0) {
-            // Use decodeURIComponent to handle encoded characters (e.g., spaces as %20)
-            return decodeURIComponent(c.substring(nameEQ.length, c.length));
-        }
-    }
-    // Return null if the cookie is not found
-    return null;
-}
+//     // Loop through the cookie array
+//     for (let i = 0; i < ca.length; i++) {
+//         let c = ca[i];
+//         // Trim leading whitespace from the cookie string
+//         while (c.charAt(0) === ' ') {
+//             c = c.substring(1, c.length);
+//         }
+//         // If the cookie string starts with the desired name, extract and return its value
+//         if (c.indexOf(nameEQ) === 0) {
+//             // Use decodeURIComponent to handle encoded characters (e.g., spaces as %20)
+//             return decodeURIComponent(c.substring(nameEQ.length, c.length));
+//         }
+//     }
+//     // Return null if the cookie is not found
+//     return null;
+// }
  
-const loginCookieValue = getCookie('jwt');
+// const loginCookieValue = getCookie('jwt');
 
-if (loginCookieValue) {
-    heading.textContent = "Welcome back, User!";
-    console.log('Login cookie found, value:', loginCookieValue);
+// if (loginCookieValue) {
+//     heading.textContent = "Welcome back, User!";
+//     console.log('Login cookie found, value:', loginCookieValue);
 
-    // You can now use the value in your JavaScript logic
-} else {
-    heading.textContent = "My Account";
-    console.log('Login cookie not found or inaccessible.');
-    // Handle the case where the user is not logged in or the cookie is HttpOnly
-}
+//     // You can now use the value in your JavaScript logic
+// } else {
+//     heading.textContent = "My Account";
+//     console.log('Login cookie not found or inaccessible.');
+//     // Handle the case where the user is not logged in or the cookie is HttpOnly
+// }
 
 
 
