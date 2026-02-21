@@ -173,27 +173,42 @@ invCont.classificationForm = async function (req, res, next) {
 
  invCont.addClassification = async function(req, res, next) {
      
-        let nav = await utilities.getNav()
+   let nav = await utilities.getNav()
+  const classificationSelect = await utilities.buildClassificationList()
+   
   // const { classification_name } = req.body
   const { classification_name } = req.body
   
     
-      const addResult = await invModel.addClassification(
-        classification_name,
-    )
+   const addResult = await invModel.addClassification(
+     classification_name,
+   )
+
+   if (classification_name.length < 1) {
+         req.flash("notice", "Sorry, the attempt to add a new classification failed.")
+        return res.status(500).render("inventory/add-classification", {
+        title: "Add Classification",
+          nav,
+        classificationSelect
+    })
+   }
+   
     if (addResult) {
         req.flash(
       "notice",
       `Congratulations, you added a new classification.`)
         res.status(201).render("inventory/management", {
         title: "Add Classification",
-        nav,
+          nav,
+        classificationSelect
+        
     });
     } else {
         req.flash("notice", "Sorry, the attempt to add a new classification failed.")
         res.status(500).render("inventory/add-classification", {
         title: "Add Classification",
-        nav,
+          nav,
+        classificationSelect
     })
     }
 };
@@ -233,8 +248,8 @@ invCont.classificationForm = async function (req, res, next) {
         req.flash(
       "notice",
       `Congratulations, you added a new inventory item.`)
-        res.status(201).render("inventory/management", {
-        title: "Add Classification",
+        res.status(201).render("inv/", {
+        title: "Inventory Management.",
           nav,
         errors: null
         });

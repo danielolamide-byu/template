@@ -29,6 +29,8 @@ router.post(
     
     router.post(
         "/update",
+         regValidate.registrationRules(),
+        regValidate.checkRegData,
         utilities.handleErrors(accountController.accountUpdate)
     );
     

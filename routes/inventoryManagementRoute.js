@@ -4,6 +4,7 @@ const utilities = require("../utilities")
 const invController = require("../controllers/invController")
 const dreamCarController = require("../controllers/dreamCarController");
 const accountController = require("../controllers/accountController")
+const regValidate = require("../utilities/inventory-validation")
 
 // Needed Resources 
 const express = require("express")
@@ -26,19 +27,21 @@ router.get("/dream-car/:dream_id", utilities.handleErrors(dreamCarController.get
 
 router.post(
     "/add-classification",
-    // regValidate.registrationRules(),
-    // regValidate.checkRegData,
+    regValidate.classificationRules(),
+    regValidate.checkClassificationData,
     utilities.handleErrors(invController.addClassification));
 
     
 router.post(
     "/add-inventory",
-    // regValidate.registrationRules(),
-    // regValidate.checkRegData,
+    // regValidate.inventoryRules(),
+    // regValidate.checkClassificationData,
     utilities.handleErrors(invController.addInventory))
 
 router.post(
     "/add-dream-car",
+    // regValidate.inventoryRules(),
+    // regValidate.checkClassificationData,
     utilities.handleErrors(dreamCarController.addDreamCar)
     )
 

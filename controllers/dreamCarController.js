@@ -52,26 +52,15 @@ async function dreamCarForm(req, res) {
 };
 
 async function getDetails(req, res) {
-    // const inv_id = req.params.invId
-    //   const data = await invModel.dreamCarModel(inv_id)
-    //   const grids = await utilities.details(data)
-    //   let nav = await utilities.getNav()
-    //   const className = data[0].inv_make
-    //   res.render("./inventory/classifications", {
-    //     title: className + " vehicle",
-    //     nav,
-    //     grids,
-    //   })
 
-    // const id = await dreamCarModel.getDreamCar() 
 
     const dreamCarId = req.params.dream_id
       const data = await dreamCarModel.getDreamCar(dreamCarId)
-      const grid = await utilities.buildDream(data)
+      const grid = await utilities.getDreamCars(data)
       let nav = await utilities.getNav()
     //   const className = data[0].classification_name
       // className.classList.add('des')
-      res.render("./dream-car/section", {
+      res.render("dream-car/section", {
         title: " vehicles",
         nav,
         grid,
