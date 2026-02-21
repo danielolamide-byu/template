@@ -305,7 +305,7 @@ form input {
   border: 1px solid blue;
   border-radius: 5px;
   margin-left: 7px;
-  width: 50px;
+  width: 100px;
 }
 
 .login, .register, .add {

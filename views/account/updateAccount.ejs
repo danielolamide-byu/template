@@ -17,22 +17,26 @@
           
                 <div class="flex">
                     <p>Firstname*</p>
-                <label><input type="text" name="account_firstname" value="<%- data.account_firstname %>"></label>
+                <label><input type="text" name="account_firstname" required value="<%- data.account_firstname %>"></label>
                 
                 <p>Lastname*</p>
-                <label><input type="text" name="account_lastname" title="account_lastname" autocomplete="family-name" required></label>
+                <label><input type="text" name="account_lastname" title="account_lastname" autocomplete="family-name" required value="<%- data.account_lastname %>"></label>
                 <p>Email*</p>
-                <label><input type="email" name="account_email" title="account_email" autocomplete="email" required ></label>
+                <label><input type="email" name="account_email" title="account_email" autocomplete="email" required value="<%- data.account_email %>"></label>
               
+                <p>Password*</p>
+          <label><input type="password" name="account_password" title="account_password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"></label>
+          <span>Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</span> 
+
+           <input type="hidden" name="account_id"
+                <% if(locals.account_id) { %> value="<%= locals.account_id %>"
+                <% } %>>
             
-                <input type="submit" value="register" class="submitButton">
+                <input type="submit" value="Update Account" class="loginButton">
                 
                 </form>
 
-                <form action="">
-                      <p>Password*</p>
-                <label><input type="password" name="account_password" title="account_password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" required></label>
-                <span>Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</span> 
+
 
                 </form>
-            </div>
+           

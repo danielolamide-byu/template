@@ -129,11 +129,7 @@ async function accountLogin(req, res) {
 async function buildManagement(req, res) {
   
     const nav = await utilities.getNav();
-    res.render("account/default", {
-      title: "Line",
-      nav,
-  
-    })
+    
 
 if (accountType === 'Client') {
     const greet = "Welcome " + accountFirstname
@@ -173,10 +169,116 @@ async function accountUpdateForm(req, res) {
     nav,
     data: data,
     errors: null,
-  
+    locals: { account_id: data.account_id }  
   });
     
-}
+};
+
+async function accountUpdate(req, res) {
+  let nav = await utilities.getNav();
+  // const account_id = req.params.account_id
+   const greet = "Welcome " + accountFirstname
+  const { account_id, account_firstname, account_lastname, account_email, account_password } = req.body
+
+  
+  
+  const updatedInformation = await ass.updateAccount(
+    account_id,
+    account_firstname,
+    account_lastname,
+    account_email,
+    account_password
+
+  )
+  console.log(account_id);
+
+  
+  if (updatedInformation) {
+    try {
+      const itemName = updatedInformation.account_firstname + " account updated"
+      req.flash("notice", `The ${itemName} was successfully updated.`)
+      res.render("account/account-management", {
+        title: "Account Management",
+        nav,
+        greet
+      })
+    } catch (error) {
+      
+   
+        // const classificationSelect = await utilities.buildClassificationList(classification_id)
+        // const itemName = `${inv_make} ${inv_model}`
+        // req.flash("notice", "Sorry, the insert failed.")
+        // res.status(501).render("account/updateAccount", {
+        // title: "Edit Account",
+        // nav,
+  
+        // errors: null,
+        // account_id,
+        // account_firstname,
+        // account_lastname,
+        // account_email,
+        console.log("Errorr Errorr Errorr errorr", error)
+      }
+      
+  } else {
+    console.log("Error Error Error Error.");
+    }
+
+};
+//   let nav = await utilities.getNav()
+//     const {
+//       dream_id,
+//       dream_make,
+//       dream_model,
+//       dream_description,
+//       dream_image,
+//       dream_thumbnail,
+//       dream_price,
+//       dream_year,
+//       dream_miles,
+//       dream_color,
+
+//     } = req.body
+//     const updateResult = await invModel.updateInventory(
+//       dream_id,  
+//       dream_make,
+//       dream_model,
+//       dream_description,
+//       dream_image,
+//       dream_thumbnail,
+//       dream_price,
+//       dream_year,
+//       dream_miles,
+//       dream_color,
+//     )
+  
+//     if (updateResult) {
+//       const itemName = updateResult.inv_make + " " + updateResult.inv_model
+//       req.flash("notice", `The ${itemName} was successfully updated.`)
+//       res.redirect("/inv/")
+//     } else {
+//       const classificationSelect = await utilities.buildClassificationList(classification_id)
+//       const itemName = `${inv_make} ${inv_model}`
+//       req.flash("notice", "Sorry, the insert failed.")
+//       res.status(501).render("inventory/edit-inventory", {
+//       title: "Edit " + itemName,
+//       nav,
+//       classificationSelect: classificationSelect,
+//       errors: null,
+//       inv_id,
+//       inv_make,
+//       inv_model,
+//       inv_year,
+//       inv_description,
+//       inv_image,
+//       inv_thumbnail,
+//       inv_price,
+//       inv_miles,
+//       inv_color,
+//       classification_id
+//       })
+//     }
+// };
 
 
 
@@ -222,4 +324,4 @@ async function requiresAdmin(req, res, next) {
 
 
 
-module.exports = { buildLogin, builRegister, registerAccount, accountLogin, buildManagement, requiresAdmin, accountUpdateForm }
+module.exports = { buildLogin, builRegister, registerAccount, accountLogin, buildManagement, requiresAdmin, accountUpdateForm, accountUpdate }
