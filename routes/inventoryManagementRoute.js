@@ -12,9 +12,12 @@ const router = new express.Router()
 
 // Route to build inventory by classification view
 router.get("/", utilities.handleErrors(invController.vehicleManagement));
-router.get("/add-classification", accountController.requiresAdmin, utilities.handleErrors(invController.classificationForm));
-router.get("/add-inventory", accountController.requiresAdmin, utilities.handleErrors(invController.inventoryForm));
-// router.get("/add-inventory", utilities.handleErrors(invController.inventoryForm));
+
+router.get("/add-classification", utilities.handleErrors(invController.classificationForm));
+// router.get("/add-classification", accountController.requiresAdmin, utilities.handleErrors(invController.classificationForm));
+// router.get("/add-inventory", accountController.requiresAdmin, utilities.handleErrors(invController.inventoryForm));
+router.get("/add-inventory", utilities.handleErrors(invController.inventoryForm));
+
 //Add Dream Car
 router.get("/add-dream-car", utilities.handleErrors(dreamCarController.dreamCarForm));
 router.get("/dream-car/:dream_id", utilities.handleErrors(dreamCarController.getDetails))
