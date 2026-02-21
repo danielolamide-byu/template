@@ -19,7 +19,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
     nav,
     grid,
   })
-}
+};
 
 invCont.getSingleVehicle = async function (req, res, next) {
   const inv_id = req.params.invId

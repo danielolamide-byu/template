@@ -17,6 +17,7 @@ router.get("/add-inventory", accountController.requiresAdmin, utilities.handleEr
 // router.get("/add-inventory", utilities.handleErrors(invController.inventoryForm));
 //Add Dream Car
 router.get("/add-dream-car", utilities.handleErrors(dreamCarController.dreamCarForm));
+router.get("/dream-car/:dream_id", utilities.handleErrors(dreamCarController.getDetails))
 
 
 

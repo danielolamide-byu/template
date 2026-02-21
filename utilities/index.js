@@ -71,6 +71,44 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
+Util.buildDream = async function (data) {
+  let grid
+  grid += '<div class="carsGrid">'
+  // if(data.length > 0){
+    
+  data.forEach(vehicle => {
+    grid += '<div class="carsInfo">'
+
+
+    grid += '<a href="/inv/detail/' + vehicle.dream_id
+      + '" title="View ' + vehicle.dream_make + ' ' + vehicle.dream_model
+      + ' details"><img class="classificationThumbnail" src="' + vehicle.dream_thumbnail + '" alt="Image of ' + vehicle.dream_make + ' ' + vehicle.dream_model
+      + ' on CSE Motors" /></a>'
+    grid += '<div class="namePrice">'
+    grid += '<hr />'
+    grid += '<h2 class="des">'
+    grid += '<a class="des" href="../../inv/detail/' + vehicle.dream_id + '" title="View '
+      + vehicle.dream_make + ' ' + vehicle.dream_model + ' details">'
+    grid += vehicle.dream_make + ' ' + vehicle.dream_model
+    grid += '</h2>'
+    grid += '<h4 class="des">' + '<span>$'
+      + new Intl.NumberFormat('en-US').format(vehicle.dream_price) + '</span>' + '</h4>'
+    grid += '</a>'
+      
+    // grid += vehicle.inv_description + '</span>'
+    grid += '</div>'
+
+    grid += '</div>'
+      
+  })
+  grid += '</div>'
+  
+  return grid
+};
+
+
+
+
 Util.details = async function (data) {
   let grid
 

@@ -84,7 +84,7 @@ async function accountLogin(req, res) {
   const accountData = await ass.getAccountByEmail(account_email)
   if (!accountData) {
     req.flash("notice", "Please check your credentials and try again.")
-    res.status(400).render("account/register", {
+    res.status(400).render("account/login", {
       title: "Login",
       nav,
       errors: null,
@@ -127,41 +127,28 @@ async function accountLogin(req, res) {
 
 
 async function buildManagement(req, res) {
-  let accountId
-  try {
-    
-    const nav = await utilities.getNav();
-    // const accountId = await ass.getUserId();
-    const id = parseInt(req.params.account_id)
-    const data = await ass.getAccountUsers(id)
-    
-
-    data.forEach((user) => {
   
-      const da = user.account_id 
-
-    // const accId = await utilities.acc()
-    // accountId += `<a href="/account/edit/${id}">Manage Account </a>`
-
-    
-    // const link = 
-    if (accountType === 'Client') {
-      const greet = "Welcome " + accountFirstname
-    
-      res.render("account/account-management", {
-        title: "Account Management",
-        nav,
-        greet,
-        da
-        
-        // acountUpdatePath
-      })
-    };
+    const nav = await utilities.getNav();
+    res.render("account/default", {
+      title: "Line",
+      nav,
+  
     })
 
-     if (accountType === 'Employee' || accountType === 'Admin') {
+if (accountType === 'Client') {
+    const greet = "Welcome " + accountFirstname
+    
+    res.render("account/account-management", {
+      title: "Account Management",
+      nav,
+      greet,       
+      // acountUpdatePath
+    });
+    
+
+    if (accountType === 'Employee' || accountType === 'Admin') {
       const greet = "Welcome " + accountFirstname
-       const invLink = await utilities.getLink();
+      const invLink = await utilities.getLink();
       res.render("account/admin-employee-management", {
         title: "Account Management",
         nav,
@@ -170,10 +157,8 @@ async function buildManagement(req, res) {
         // errors: null
       })
     }
-    } catch (error) {
-      console.log("Cannot build Management.", error);
-    }
-  };
+  }
+};
 
 async function accountUpdateForm(req, res) {
   // const account_id = req.params.account_id
@@ -192,6 +177,14 @@ async function accountUpdateForm(req, res) {
   });
     
 }
+
+
+
+  
+
+    
+  // const link = 
+  
 
 
 

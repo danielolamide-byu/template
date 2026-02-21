@@ -9,4 +9,21 @@ async function addDreamCar(dream_make, dream_model, dream_year, dream_descriptio
     }
 };
 
-module.exports = { addDreamCar };
+async function getDreamCar() {
+    return pool.query(`SELECT * FROM public.dreamvehicle`)
+}
+
+async function getDreamCarById(dream_id) {
+    try {
+        const info = await pool.query(
+            `SELECT * FROM public.dreamvehicle
+              WHERE inv_id = $1`,
+            [dream_id]
+        )
+        return info.rows
+    } catch(error) {
+        console.error("Big Error" + error)
+    }
+};
+
+module.exports = { addDreamCar, getDreamCarById, getDreamCar };
